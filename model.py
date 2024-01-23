@@ -197,19 +197,18 @@ class TransformerDecoderPredictor(nn.Module):
         x = x.squeeze(2)
         return x
 
-    def predict(self, prompt, predict_length, use_kv_cache=False, use_rope=True):
+    def predict(self, prompt, predict_length, use_rope=True):
         """
+        This function was originally intended to predict using kvcache
         In the current code, due to the presence of RoPE (Rotary Positional Encoding),
         the positional encoding after using KV_cache differs from the step-by-step prediction.
-        Therefore, the outcome may differ depending on whether use_kv_cache is enabled.
         While referencing llamas' code (https://github.com/facebookresearch/llama/blob/main/llama/model.py#280),
         I did not identify a solution to address this issue.
-        Therefore, I do not recommend setting use_kv_cache to True.
-        Beyond that, if you can solve this problem, please let me know. (github:@liaoyanqing666, email:1793706453@qq.com)
+        Therefore, I do not recommend use this function.
+        By the way, if you can solve this problem, please let me know. (github:@liaoyanqing666, email:1793706453@qq.com)
 
         :param prompt: prompt data
         :param predict_length: length of prediction
-        :param use_kv_cache: whether to use kv_cache
         :param use_rope: whether to use RoPE
         :return: prediction
         """
@@ -230,10 +229,6 @@ class TransformerDecoderPredictor(nn.Module):
             # [B, 1, 1]
             output = x
 
-            if not use_kv_cache:
-                k_cache = [None for _ in range(len(self.decoder_blocks))]
-                v_cache = [None for _ in range(len(self.decoder_blocks))]
-
             # decode process
             for i in range(predict_length-1):
                 x = self.embedding(x)
@@ -244,10 +239,6 @@ class TransformerDecoderPredictor(nn.Module):
                 x = self.fc_out(x)
                 # [B, 1, 1]
                 output = torch.cat([output, x], dim=1)
-
-                if not use_kv_cache:
-                    k_cache = [None for _ in range(len(self.decoder_blocks))]
-                    v_cache = [None for _ in range(len(self.decoder_blocks))]
 
             output = output.squeeze(2)
 
