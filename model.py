@@ -265,10 +265,6 @@ if __name__ == '__main__':
 
     transformer_decoder = TransformerDecoderPredictor(embed_size, heads, ff_hidden_dim, num_layers)
     input_data = torch.randn((3, 10)) # B, L
-    output = transformer_decoder.predict(input_data, 20, use_kv_cache=False)
-    print(output)
-    output = transformer_decoder.predict(input_data, 20, use_kv_cache=True)
-    print(output)
 
     outputs = input_data
     for j in range(20):

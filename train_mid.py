@@ -33,18 +33,18 @@ batch_size = 64
 lr = 0.0001
 epochs = 10
 length_origin = 180
-length_pre = 60
+length_pre = 30
 
 # 创建数据集和数据加载器
-train_dataset = SeqDataset(length=length_origin + length_pre)
-train_data_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+test_dataset = SeqDataset(length=length_origin + length_pre, split=0.8, behind=False)
+test_data_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
 
 loss_function = nn.L1Loss().to(device)
 
 total_loss = 0
 total_smape = 0
 with torch.no_grad():
-    for sequence in train_data_loader:
+    for sequence in test_data_loader:
         sequence = sequence.to(device)
         inputs = sequence[:, :length_origin]
         ground_truth = sequence[:, length_origin:]
@@ -59,7 +59,7 @@ with torch.no_grad():
             print('smape', smape_value)
         print('loss', loss.item())
 
-    average_loss = total_loss / len(train_dataset)
+    average_loss = total_loss / len(test_dataset)
     print(f"Loss: {average_loss}")
-    average_smape = total_smape / len(train_dataset)
+    average_smape = total_smape / len(test_dataset)
     print(f"SMAPE: {average_smape}")

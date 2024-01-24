@@ -10,6 +10,10 @@ from loss import SMAPELoss
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device)
+seed = 42
+torch.manual_seed(seed)
+torch.cuda.manual_seed(seed)
+
 
 def smape(y_true, y_pred):
     """
@@ -28,13 +32,13 @@ def smape(y_true, y_pred):
     smape_val = torch.mean((numerator / denominator)) * 100.0
     return smape_val.item()
 
-hidden_size_1 = 1024
-hidden_size_2 = 1024
+hidden_size_1 = 512
+hidden_size_2 = 512
 batch_size = 64
 lr = 0.0001
-epochs = 20
+epochs = 50
 length_origin = 180
-length_pre = 60
+length_pre = 30
 
 # 创建数据集和数据加载器
 train_dataset = SeqDataset(length=length_origin + length_pre, split=0.8, behind=True)
@@ -94,3 +98,4 @@ for epoch in range(epochs):
     if average_test_loss < min_loss:
         min_loss = average_test_loss
         torch.save(model.state_dict(), 'mlp_model_parameter.pth')
+    print(min_loss)
