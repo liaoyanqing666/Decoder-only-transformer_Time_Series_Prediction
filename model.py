@@ -160,12 +160,12 @@ class DecoderLayer(nn.Module):
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, x, mask, use_rope=True):
-        attention = self.attention(x, mask, use_rope=use_rope)
+        attention = self.attention(self.norm1(x), mask, use_rope=use_rope)
 
-        x = self.dropout(self.norm1(attention)) + x
-        forward = self.feed_forward(x)
+        x = self.dropout(attention) + x
+        forward = self.feed_forward(self.norm2(x))
 
-        out = self.dropout(self.norm2(forward)) + x
+        out = self.dropout(forward) + x
         return out
 
     def predict(self, x, mask, kcache, vcache, use_rope=True):
