@@ -1,3 +1,4 @@
+# Test the baseline model (use the middle one to predict)
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
@@ -35,7 +36,6 @@ epochs = 10
 length_origin = 180
 length_pre = 30
 
-# 创建数据集和数据加载器
 test_dataset = SeqDataset(length=length_origin + length_pre, split=0.8, behind=False)
 test_data_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
 

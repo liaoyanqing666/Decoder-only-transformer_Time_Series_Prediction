@@ -1,3 +1,4 @@
+# Train the MLP model
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
@@ -40,7 +41,6 @@ epochs = 50
 length_origin = 180
 length_pre = 30
 
-# 创建数据集和数据加载器
 train_dataset = SeqDataset(length=length_origin + length_pre, split=0.8, behind=True)
 train_data_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 test_dataset = SeqDataset(length=length_origin + length_pre, split=0.8, behind=False)
@@ -48,10 +48,8 @@ test_data_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False
 print(len(train_dataset))
 print(len(test_dataset))
 
-# 创建模型
 model = MLP(length_origin, hidden_size_1, hidden_size_2, length_pre).to(device)
 
-# 定义损失函数和优化器
 loss_function = SMAPELoss().to(device)
 optimizer = Adam(model.parameters(), lr=lr)
 

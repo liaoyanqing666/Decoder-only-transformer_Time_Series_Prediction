@@ -22,6 +22,6 @@ def plot_rows(data_frame, row_indices):
     plt.legend()
     plt.show()
 
-# 例如，绘制第1行和第2行数据的变化
+
 plot_rows(data_frame, [1, 2, 3, 4, 5])
 

@@ -1,5 +1,4 @@
 import os
-
 import pandas as pd
 import torch
 from torch.utils.data import Dataset
@@ -36,10 +35,10 @@ class SeqDataset(Dataset):
         sample = self.data_frame.iloc[idx, :].values
 
         return torch.tensor(sample, dtype=torch.float32)
+        # [seq_len]
 
 if __name__ == '__main__':
     dataset = SeqDataset(length=100, split=0.8)
 
-    # 读取第一个样本
     sample = dataset[0]
     print("Sample:", sample)
