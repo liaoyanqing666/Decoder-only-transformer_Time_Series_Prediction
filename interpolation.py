@@ -3,12 +3,12 @@ import pandas as pd
 from scipy.interpolate import CubicSpline
 from tqdm import tqdm
 
-# 过滤一些不合理的数据
+# Filter some unreasonable data
 def filter(input_file='E:\\大学本科课程\\大三2\\机器学习基础\\期末\\代码\\时序数据回归预测\\train.csv',
            output_file='E:\\大学本科课程\\大三2\\机器学习基础\\期末\\代码\\时序数据回归预测\\train_filter.csv',
            k=None):
     """
-    :param k: 最多允许的非数值数量
+    :param k: The maximum number of non-numeric values allowed
     """
     df = pd.read_csv(input_file, index_col=0, header=0)
     if k is None:
@@ -22,7 +22,7 @@ def filter(input_file='E:\\大学本科课程\\大三2\\机器学习基础\\期�
     filtered_df = df.loc[filtered_rows]
     filtered_df.to_csv(output_file)
 
-# 三次样条插值
+# cubic spline interpolation
 def cubic_spline(input_file='E:\\大学本科课程\\大三2\\机器学习基础\\期末\\代码\\时序数据回归预测\\train_filter.csv',
                  output_file='E:\\大学本科课程\\大三2\\机器学习基础\\期末\\代码\\时序数据回归预测\\train_cubic.csv'):
     df = pd.read_csv(input_file, index_col=0, header=0)
@@ -47,7 +47,7 @@ def cubic_spline(input_file='E:\\大学本科课程\\大三2\\机器学习基础
 
     df_interpolated.to_csv(output_file)
 
-# 最近邻插值
+# nearest neighbor interpolation
 def nearest_neighbor(input_file='E:\\大学本科课程\\大三2\\机器学习基础\\期末\\代码\\时序数据回归预测\\train_filter.csv',
                      output_file='E:\\大学本科课程\\大三2\\机器学习基础\\期末\\代码\\时序数据回归预测\\train_nearest.csv'):
     df = pd.read_csv(input_file, index_col=0, header=0)
@@ -58,7 +58,7 @@ def nearest_neighbor(input_file='E:\\大学本科课程\\大三2\\机器学习�
 
     df_interpolated.to_csv(output_file)
 
-# 区分周末和工作日的中位数填充
+# Median fill that distinguishes between weekends and weekdays
 def weekday(input_file='E:\\大学本科课程\\大三2\\机器学习基础\\期末\\代码\\时序数据回归预测\\train_filter.csv',
             output_file='E:\\大学本科课程\\大三2\\机器学习基础\\期末\\代码\\时序数据回归预测\\train_weekday.csv'):
     df = pd.read_csv(input_file, index_col=0, header=0)
@@ -85,7 +85,7 @@ def weekday(input_file='E:\\大学本科课程\\大三2\\机器学习基础\\期
 
     df_custom_interpolated.to_csv(output_file)
 
-# 0填充
+# 0 padding
 def zero_padding(input_file='E:\\大学本科课程\\大三2\\机器学习基础\\期末\\代码\\时序数据回归预测\\train_filter.csv',
                  output_file='E:\\大学本科课程\\大三2\\机器学习基础\\期末\\代码\\时序数据回归预测\\train_zero_padding.csv'):
     df = pd.read_csv(input_file, index_col=0, header=0)
